@@ -1,7 +1,6 @@
 #include "main.h"
 
 /**
- * Author: Justine-Njuguna
  * *_memcpy - copies memory area
  * @dest: destination memory area
  * @src: memory area to copy from
