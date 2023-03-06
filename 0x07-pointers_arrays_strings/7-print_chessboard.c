@@ -1,7 +1,6 @@
 #include "main.h"
 
 /**
- * Author: Justine-Njuguna
  * print_chessboard - prints the chessboard
  * @a: two dimension array to print
  */
