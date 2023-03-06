@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 /**
- * Author: Justine-Njuguna
  * *_strchr - locates a character in a string
  * @s: string to search
  * @c: char to find
