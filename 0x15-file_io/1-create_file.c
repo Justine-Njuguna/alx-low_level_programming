@@ -1,7 +1,9 @@
 #include "main.h"
 
 /**
+ * Author: Justine Njuguna
  * create_file: Creates a file.
+ * desc: Create a function that creates a file.
  * @filename: Name of the file to create -> pointer.
  * @text_content: Is a NULL terminated string to write to the file.
  *
