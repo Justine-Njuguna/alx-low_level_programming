@@ -1,15 +1,13 @@
-#include "main.h"
-
 /**
- * Author: Justine Njuguna
- * create_file: Creates a file.
- * desc: Create a function that creates a file.
- * @filename: Name of the file to create -> pointer.
- * @text_content: Is a NULL terminated string to write to the file.
+ * Author: Justine Njuguna.
+ * create_file - Creates a file.
+ * @filename: A pointer to the name of the file to create.
+ * @text_content: A pointer to a string to write to the file.
  *
- * Return: if filename is NULL, return -1
- * if text_content is NULL, create an empty file.
+ * Return: If the function fails - -1.
+ *         Otherwise - 1.
  */
+#include "main.h"
 
 int create_file(const char *filename, char *text_content)
 {
