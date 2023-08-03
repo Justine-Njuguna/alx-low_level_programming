@@ -12,7 +12,11 @@ int _putchar(char c);
 /* Function to convert a binary string to an unsigned int - Task 0 */
 unsigned int binary_to_uint(const char *b);
 
-/* Function that prints the binary representation of a number Task 1 */
+/* Function that prints the binary representation of a number - Task 1 */
 void print_binary(unsigned long int n);
+
+/* Function that returns the value of a bit at a given index - Task 2 */
+int get_bit(unsigned long int n, unsigned int index);
+
 
 #endif /* MAIN_H */
