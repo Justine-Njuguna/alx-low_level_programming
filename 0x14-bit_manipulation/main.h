@@ -18,5 +18,7 @@ void print_binary(unsigned long int n);
 /* Function that returns the value of a bit at a given index - Task 2 */
 int get_bit(unsigned long int n, unsigned int index);
 
+/* Function that sets the value of a bit to 1 at a given index - Task 3 */
+int set_bit(unsigned long int *n, unsigned int index);
 
 #endif /* MAIN_H */
