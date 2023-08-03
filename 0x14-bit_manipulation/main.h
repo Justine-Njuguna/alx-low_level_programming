@@ -1,6 +1,10 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+/* Our .h files */
+#include <stddef.h>
+#include <stdio.h>
+
 /* Custom _putchar function */
 int _putchar(char c);
 
