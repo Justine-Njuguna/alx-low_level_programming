@@ -21,4 +21,7 @@ ssize_t read_textfile(const char *filename, size_t letters);
 /* Function that creates a file - Task 1 */
 int create_file(const char *filename, char *text_content);
 
+/* Function that appends text at the end of a file - Task 2 */
+int append_text_to_file(const char *filename, char *text_content);
+
 #endif /* End of the main.h */
