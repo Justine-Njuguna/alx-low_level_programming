@@ -7,6 +7,10 @@
 #include <fcntl.h>
 #include <string.h>
 
+char *allocate_buffer(char *file);
+void close_descriptor(int fd);
+
+
 /* Task 0 */
 ssize_t read_textfile(const char *filename, size_t letters);
 
