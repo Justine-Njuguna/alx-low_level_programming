@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
-
+#include <elf.h>
 #define BUFFER_SIZE 1024
 
 
@@ -28,7 +28,7 @@ void handle_error(int exit_code, const char *message);
 void copy_file(const char *file_from, const char *file_to);
 
 /* Task 4 */
-void display_elf_header(const char *elf_filename);
+void display_elf_header(Elf64_Ehdr *header);
 
 #endif /* MAIN_H */
 
