@@ -1,14 +1,15 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdlib.h>  /* for malloc, free, and exit */
-#include <unistd.h>  /* for read, write, close, and STDIN_FILENO constants */
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <fcntl.h>
-#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
 
-char *allocate_buffer(char *file);
-void close_descriptor(int fd);
+#define BUFFER_SIZE 1024
 
 
 /* Task 0 */
