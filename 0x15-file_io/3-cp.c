@@ -1,105 +1,112 @@
 #include "main.h"
 
 /**
- * print_usage_error - Prints a usage error message.
- * @program_name: The name of the program.
- */
-
-void print_usage_error(char *program_name)
-{
-	dprintf(STDERR_FILENO, "Usage: %s file_from file_to\n", program_name);
-}
-
-/**
- * copy_file_content - Copies the content from one fd to another
- * @fd_from: The source fd
- * @fd_to: The destination fd
+ * custom_check97 - Check for the correct number of arguments.
+ * @argc: Num of args
  *
- * Return: 0 on success else -1
+ * Return: void.
  */
 
-int copy_file_content(int fd_from, int fd_to)
+void custom_check97(int argc)
 {
-	ssize_t bytes_read, bytes_written;
-	char buffer[1024];
-
-	while ((bytes_read = read(fd_from, buffer, sizeof(buffer))) > 0)
+	if (argc != 3)
 	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written == -1 || bytes_written != bytes_read)
-			return (-1);
+		dprintf(STDERR_FILENO, "Custom Usage: cp file_from file_to\n");
+		exit(97);
 	}
-
-	if (bytes_read == -1)
-		return (-1);
-
-	return (0);
 }
 
 /**
- * close_file - Closes a fd and handles errors.
- * @fd: The fd to close.
+ * custom_check_read - Check if file_from exists and can be read.
+ * @check: Check if true or false
+ * @file: file_from name
+ * @fd_from: File descriptor of file_from, or -1
  *
- * Return: 0 on success, else -1.
+ * Return: void.
  */
 
-int close_file(int fd)
+void custom_check_read(ssize_t check, char *file, int fd_from)
 {
-	if (close(fd) == -1)
+	if (check == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-		return (-1);
+		dprintf(STDERR_FILENO, "Custom Error: Can't read from file %s\n", file);
+		if (fd_from != -1)
+			close(fd_from);
+		exit(98);
 	}
-
-	return (0);
 }
 
 /**
- * main - Entry.
- * @argc: The num of CLI args.
- * @argv: An array of CLI strings
+ * custom_check_write - Check if file_to was created and/or can be written to.
+ * @check: Check if true or false.
+ * @file: file_to name
+ * @fd_to: File descriptor of file_to, or -1
  *
- * Return: 0 on success else an error code
+ * Return: void
+ */
+
+void custom_check_write(ssize_t check, char *file, int fd_to)
+{
+	if (check == -1)
+	{
+		dprintf(STDERR_FILENO, "Custom Error: Can't write to %s\n", file);
+		if (fd_to != -1)
+			close(fd_to);
+		exit(98);
+	}
+}
+
+/**
+ * custom_check_close - Check that file descriptor was closed properly.
+ * @check: Check if true or false
+ * @fd: File descriptor
+ *
+ * Return: void
+ */
+
+void custom_check_close(int check, int fd)
+{
+	if (check == -1)
+	{
+		dprintf(STDERR_FILENO, "Custom Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
+ * main - Entry point
+ * @argc: Number of arguments passed
+ * @argv: Array of pointers to the arguments
+ *
+ * Return: Always 0
  */
 
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to;
+	int fd_from, fd_to, close_to, close_from;
+	ssize_t lenr, lenw;
+	char buffer[1024];
+	mode_t file_perm;
 
-	if (argc != 3)
-	{
-		print_usage_error(argv[0]);
-		return (97);
-	}
-
+	custom_check97(argc);
 	fd_from = open(argv[1], O_RDONLY);
-	if (fd_from == -1)
+	custom_check_read((ssize_t)fd_from, argv[1], -1);
+	file_perm = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+	fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, file_perm);
+	custom_check_write((ssize_t)fd_to, argv[2], fd_from);
+	lenr = 1024;
+	while (lenr == 1024)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		return (98);
+		lenr = read(fd_from, buffer, 1024);
+		custom_check_read(lenr, argv[1], fd_from);
+		lenw = write(fd_to, buffer, lenr);
+		if (lenw != lenr)
+			lenw = -1;
+		custom_check_write(lenw, argv[2], fd_to);
 	}
-
-	fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (fd_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		close(fd_from);
-		return (99);
-	}
-
-	if (copy_file_content(fd_from, fd_to) == -1)
-	{
-		close(fd_from);
-		close(fd_to);
-		return (99);
-	}
-
-	if (close_file(fd_from) == -1)
-		return (100);
-
-	if (close_file(fd_to) == -1)
-		return (100);
-
+	close_to = close(fd_to);
+	close_from = close(fd_from);
+	custom_check_close(close_to, fd_to);
+	custom_check_close(close_from, fd_from);
 	return (0);
 }
