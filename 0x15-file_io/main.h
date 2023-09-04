@@ -3,6 +3,8 @@
 
 #include <stdlib.h>  /* for malloc, free, and exit */
 #include <unistd.h>  /* for read, write, close, and STDIN_FILENO constants */
+#include <stdio.h>
+#include <fcntl.h>
 
 /* Task 0 */
 ssize_t read_textfile(const char *filename, size_t letters);
