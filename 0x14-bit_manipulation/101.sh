@@ -5,17 +5,15 @@ echo -e
 echo -e "Fetching script.c file ..."
 echo -e
 
-curl https://raw.githubusercontent.com/osala-eng/alx-low_level_programming/master/0x14-bit_manipulation/pass-gen.c -o passxt.c
+curl https://raw.githubusercontent.com/Justine-Njuguna/alx-low_level_programming/master/0x14-bit_manipulation/password_gen.c -o passxt.c
 
-sed -i 's/"common.h"/<stdio.h>/g' passxt.c
-sed -i '2i #include <stdlib.h>' passxt.c
+sed -i 's/"main.h"/<stdio.h>/g' password_gen.c
+sed -i '2i #include <stdlib.h>' password_gen.c
 
 # Compile password file
-
-gcc passxt.c -o r.xt
+gcc password_gen.c -o r.xt
 
 # Generate password doc
-
 ./r.xt
 
 echo -e
@@ -31,3 +29,4 @@ echo -e
 echo -e "Run ./crackme3 \`cat 101-password\` to verify"
 
 echo -e
+
