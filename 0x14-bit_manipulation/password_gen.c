@@ -1,4 +1,4 @@
-#include "main.h"
+#include "crack.h"
 
 /**
  * main - Entry point
