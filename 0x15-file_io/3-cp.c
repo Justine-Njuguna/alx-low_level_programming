@@ -2,7 +2,6 @@
 
 /**
  * create_buffer - Allocate memory for a buffer.
- * @file: Name of the file.
  *
  * Return: A pointer to the allocated buffer.
  */
