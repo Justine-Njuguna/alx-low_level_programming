@@ -30,6 +30,7 @@ void copy_file(const char *file_from, const char *file_to);
 
 /* Task 4 */
 void display_elf_header(Elf64_Ehdr *header);
+void check_error(int check, const char *file, int fd_from, int fd_to, int code);
 
 void check_elf(unsigned char *e_ident);
 void print_magic(unsigned char *e_ident);

@@ -50,8 +50,10 @@ void close_fd(int fd, const char *file)
 
 int main(int argc, char *argv[])
 {
-	int from_fd, to_fd, read_bytes, write_bytes;
+	int from_fd, to_fd;
+	ssize_t read_bytes, write_bytes;
 	char *buffer;
+	mode_t file_perm = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	if (argc != 3)
 	{
@@ -61,30 +63,46 @@ int main(int argc, char *argv[])
 
 	buffer = create_buffer();
 	from_fd = open(argv[1], O_RDONLY);
-	read_bytes = read(from_fd, buffer, 1024);
-	to_fd = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	check_error(from_fd, argv[1], -1, -1, 98);
+	to_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, file_perm);
+	check_error(to_fd, argv[2], from_fd, -1, 99);
 
 	do {
-		if (from_fd == -1 || read_bytes == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't read from file%s\n", argv[1]);
-			free(buffer);
-			exit(98);
-		}
-		write_bytes = write(to_fd, buffer, read_bytes);
-		if (to_fd == -1 || write_bytes == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			free(buffer);
-			exit(99);
-		}
 		read_bytes = read(from_fd, buffer, 1024);
-		to_fd = open(argv[2], O_WRONLY | O_APPEND);
+		check_error(read_bytes, argv[1], from_fd, to_fd, 98);
+
+		write_bytes = write(to_fd, buffer, read_bytes);
+		check_error(write_bytes, argv[2], from_fd, to_fd, 99);
 	} while (read_bytes > 0);
 
 	free(buffer);
+
 	close_fd(from_fd, argv[1]);
 	close_fd(to_fd, argv[2]);
 
 	return (0);
+}
+
+/**
+ * check_error - Checks for errors in file ops and exits if necessary.
+ * @check: The result to be checked.
+ * @file: The name of the file associated with the operation.
+ * @fd_from: The fd of file_from, or -1.
+ * @fd_to: The fd of file_to
+ * @code: The exit code if error detected
+ *
+ * Return: void.
+ */
+
+void check_error(int check, const char *file, int fd_from, int fd_to, int code)
+{
+        if (check == -1)
+        {
+                dprintf(STDERR_FILENO, "Error: Can't %s from file %s\n", (code == 98) ? "read" : "write", file);
+                if (fd_from != -1)
+                        close_fd(fd_from, file);
+                if (fd_to != -1)
+                        close_fd(fd_to, file);
+                exit(code);
+        }
 }
