@@ -7,7 +7,7 @@
  * Return: A pointer to the allocated buffer.
  */
 
-char *create_buffer(const char *file)
+char *create_buffer(void)
 {
 	char *buffer;
 
@@ -15,8 +15,8 @@ char *create_buffer(const char *file)
 
 	if (buffer == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't allocate memory for %s\n", file);
-		exit(99);
+		perror("Error: Can't allocate memory");
+		exit(98);
 	}
 	return (buffer);
 }
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		exit(97);
 	}
 
-	buffer = create_buffer(argv[2]);
+	buffer = create_buffer();
 	from_fd = open(argv[1], O_RDONLY);
 	read_bytes = read(from_fd, buffer, 1024);
 	to_fd = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
