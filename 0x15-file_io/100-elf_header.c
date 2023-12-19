@@ -91,7 +91,7 @@ void print_elf_data(unsigned char *magic_numbers)
 			printf("2's complement, big endian\n");
 			break;
 		default:
-			printf("<unknown: %x>\n", magic_numbers[EI_CLASS]);
+			printf("<unknown: %x>\n", magic_numbers[EI_DATA]);
 	}
 }
 
