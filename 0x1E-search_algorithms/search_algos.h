@@ -2,6 +2,7 @@
 #define SEARCH_ALGOS_H
 
 #include <stdio.h>
+#include <math.h>
 
 /* Prototypes for all the files */
 
@@ -11,5 +12,7 @@ int linear_search(int *array, size_t size, int value);
 /* Task-1 */
 int binary_search(int *array, size_t size, int value);
 
+/* Task-100 */
+int jump_search(int *array, size_t size, int value);
 
 #endif /* SEARCH_ALGOS_H */
